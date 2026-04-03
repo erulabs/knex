@@ -12,7 +12,9 @@ describe('Util Tests', function () {
   require('./unit/util/comma-no-paren-regex');
   require('./unit/util/format-sql-bindings');
   require('./unit/util/security');
+  require('./unit/util/helpers');
   require('./unit/client/pool-config');
+  require('./unit/client/parameterize');
 });
 
 describe('Query Building Tests', function () {
@@ -20,6 +22,7 @@ describe('Query Building Tests', function () {
 
   require('./unit/query/builder');
   require('./unit/query/formatter');
+  require('./unit/query/wrapping-formatter');
   require('./unit/query/string');
   require('./unit/schema-builder/mysql')('mysql');
   require('./unit/schema-builder/mysql')('mysql2');

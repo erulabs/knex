@@ -5963,8 +5963,10 @@ describe('QueryBuilder', () => {
   it('normalizes for missing keys in insert', () => {
     const data = [{ a: 1 }, { b: 2 }, { a: 2, c: 3 }];
 
-    //This is done because sqlite3 does not support valueForUndefined, and can't manipulate testsql to use 'clientsWithUseNullForUndefined'.
-    //But we still want to make sure that when `useNullAsDefault` is explicitly defined, that the query still works as expected. (Bindings being undefined)
+    // This is done because sqlite3 does not support DEFAULT in inserts, and
+    // testsql cannot swap in clientsWithNullAsDefault just for one dialect.
+    // We temporarily opt sqlite3 into useNullAsDefault semantics here and
+    // verify that missing keys compile to null bindings.
     //It's reset at the end of the test.
     const previousValuesForUndefinedSqlite3 = clients.sqlite3.valueForUndefined;
     clients.sqlite3.valueForUndefined = null;
@@ -5978,13 +5980,13 @@ describe('QueryBuilder', () => {
         sql: 'insert into `table` (`a`, `b`, `c`) select ? as `a`, ? as `b`, ? as `c` union all select ? as `a`, ? as `b`, ? as `c` union all select ? as `a`, ? as `b`, ? as `c`',
         bindings: [
           1,
-          undefined,
-          undefined,
-          undefined,
+          null,
+          null,
+          null,
           2,
-          undefined,
+          null,
           2,
-          undefined,
+          null,
           3,
         ],
       },
