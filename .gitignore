@@ -21,7 +21,7 @@ bin/db.sqlite3
 
 # Other artifacts created during testing
 /knexfile.js
-
+/profiles/
 
 # Bench stuff
 test/bench/temp
